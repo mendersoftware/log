@@ -1,0 +1,14 @@
+{
+	"ImportPath": "github.com/mendersoftware/log",
+	"GoVersion": "go1.5",
+	"Deps": [
+		{
+			"ImportPath": "github.com/mendersoftware/mendertesting",
+			"Rev": "185b0658c0984b85ed862f55c77a62ba8401fca7"
+		},
+		{
+			"ImportPath": "github.com/mendersoftware/scopestack",
+			"Rev": "feb2f3f2bec86824d6ac1963e934c790c51b2776"
+		}
+	]
+}
