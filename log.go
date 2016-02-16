@@ -187,8 +187,8 @@ func (self *Logger) applyModule(level logrus.Level) *logrus.Entry {
 
 	// Filter based on modules selected.
 	if len(self.moduleFilter) > 0 {
-		var found bool = false;
-		for i := range(self.moduleFilter) {
+		var found bool = false
+		for i := range self.moduleFilter {
 			if self.moduleFilter[i] == module {
 				found = true
 				break
@@ -213,7 +213,7 @@ func (self *Logger) AddSyslogHook() error {
 	hook.data = &loggingHookData{}
 	hook.data.syslogLogger = logrus.New()
 	hook.data.syslogLogger.Formatter = &logrus.TextFormatter{
-		DisableColors: true,
+		DisableColors:    true,
 		DisableTimestamp: true,
 	}
 
@@ -229,7 +229,6 @@ func (self *Logger) AddSyslogHook() error {
 
 	return nil
 }
-
 
 // -----------------------------------------------------------------------------
 

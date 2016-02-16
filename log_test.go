@@ -250,14 +250,14 @@ func TestSyslog(t *testing.T) {
 	// for the console.
 	var checkString string
 	// Should show.
-	checkString = fmt.Sprintf("level=error msg=\"For syslog testing: Error with no module: " +
+	checkString = fmt.Sprintf("level=error msg=\"For syslog testing: Error with no module: "+
 		"%d\" module=\"log_test\"", testrand)
 	mt.AssertTrue(t, strings.Index(string(output[:]), checkString) >= 0)
-	checkString = fmt.Sprintf("level=warning msg=\"For syslog testing: Warning with test1 module: " +
+	checkString = fmt.Sprintf("level=warning msg=\"For syslog testing: Warning with test1 module: "+
 		"%d\" module=test1", testrand)
 	mt.AssertTrue(t, strings.Index(string(output[:]), checkString) >= 0)
 	// Should not show.
-	checkString = fmt.Sprintf("level=debug msg=\"For syslog testing: Debug with test1 module: " +
+	checkString = fmt.Sprintf("level=debug msg=\"For syslog testing: Debug with test1 module: "+
 		"%d\" module=test1", testrand)
 	mt.AssertTrue(t, strings.Index(string(output[:]), checkString) < 0)
 
