@@ -232,6 +232,72 @@ func (self *Logger) AddSyslogHook() error {
 	return nil
 }
 
+type FileLogHook struct {
+	name     string
+	updateID string
+}
+
+// returnes ID of current update
+func getUpdateID() string {
+	//TODO: get update ID
+	return "1"
+}
+
+func NewFileLogHook(file string) *FileLogHook {
+	return &FileLogHook{
+		name:     file,
+		updateID: getUpdateID(),
+	}
+}
+
+func (fh FileLogHook) Levels() []logrus.Level {
+	return []logrus.Level{logrus.PanicLevel,
+		logrus.FatalLevel,
+		logrus.ErrorLevel,
+		logrus.WarnLevel,
+		logrus.InfoLevel,
+		logrus.DebugLevel}
+}
+
+func (fh FileLogHook) Fire(entry *logrus.Entry) error {
+	// add update id to the logged information
+
+	copy := *entry
+	copy.Logger = logrus.New()
+	copy.Logger.Formatter = &logrus.JSONFormatter{}
+
+	logFile, err := os.OpenFile(fh.name, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	if err != nil {
+		return err
+	}
+	defer logFile.Close()
+	copy.Logger.Out = logFile
+
+	switch entry.Level {
+	case logrus.DebugLevel:
+		copy.WithFields(logrus.Fields{"update": fh.updateID}).Debug(entry.Message)
+	case logrus.InfoLevel:
+		copy.WithFields(logrus.Fields{"update": fh.updateID}).Info(entry.Message)
+	case logrus.WarnLevel:
+		copy.WithFields(logrus.Fields{"update": fh.updateID}).Warn(entry.Message)
+	case logrus.ErrorLevel:
+		copy.WithFields(logrus.Fields{"update": fh.updateID}).Error(entry.Message)
+	}
+
+	return nil
+}
+
+func AddDeploymentHook(file string) error {
+	return Log.AddDeploymentHook(file)
+}
+
+func (self *Logger) AddDeploymentHook(file string) error {
+	hook := NewFileLogHook(file)
+	self.Hooks.Add(hook)
+
+	return nil
+}
+
 // -----------------------------------------------------------------------------
 
 // Mirror all the logrus API.
