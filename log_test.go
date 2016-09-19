@@ -14,15 +14,18 @@
 
 package log
 
-import "fmt"
-import "github.com/Sirupsen/logrus"
-import mt "github.com/mendersoftware/mendertesting"
-import "os"
-import "os/exec"
-import "math/rand"
-import "strings"
-import "testing"
-import "time"
+import (
+	"fmt"
+	"math/rand"
+	"os"
+	"os/exec"
+	"strings"
+	"testing"
+	"time"
+
+	"github.com/Sirupsen/logrus"
+	mt "github.com/mendersoftware/mendertesting"
+)
 
 func TestSetup(t *testing.T) {
 }
@@ -233,7 +236,7 @@ func TestSyslog(t *testing.T) {
 	Log.Debugf("For syslog testing: Debug with test1 module: %d", testrand)
 	Log.PopModule()
 
-	var syslog string = "/var/log/syslog"
+	syslog := "/var/log/syslog"
 	if _, err := os.Stat(syslog); err != nil {
 		syslog = "/var/log/messages"
 		if _, err = os.Stat(syslog); err != nil {
@@ -252,14 +255,14 @@ func TestSyslog(t *testing.T) {
 	// Should show.
 	checkString = fmt.Sprintf("level=error msg=\"For syslog testing: Error with no module: "+
 		"%d\" module=\"log_test\"", testrand)
-	mt.AssertTrue(t, strings.Index(string(output[:]), checkString) >= 0)
+	mt.AssertTrue(t, strings.Index(string(output), checkString) >= 0)
 	checkString = fmt.Sprintf("level=warning msg=\"For syslog testing: Warning with test1 module: "+
 		"%d\" module=test1", testrand)
-	mt.AssertTrue(t, strings.Index(string(output[:]), checkString) >= 0)
+	mt.AssertTrue(t, strings.Index(string(output), checkString) >= 0)
 	// Should not show.
 	checkString = fmt.Sprintf("level=debug msg=\"For syslog testing: Debug with test1 module: "+
 		"%d\" module=test1", testrand)
-	mt.AssertTrue(t, strings.Index(string(output[:]), checkString) < 0)
+	mt.AssertTrue(t, strings.Index(string(output), checkString) < 0)
 
 	cleanupLogging(t)
 
