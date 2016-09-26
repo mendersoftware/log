@@ -1,10 +1,11 @@
 {
 	"ImportPath": "github.com/mendersoftware/log",
 	"GoVersion": "go1.5",
+	"GodepVersion": "v74",
 	"Deps": [
 		{
 			"ImportPath": "github.com/mendersoftware/mendertesting",
-			"Rev": "185b0658c0984b85ed862f55c77a62ba8401fca7"
+			"Rev": "bc995f337d2788cbc9faca2af6f527007953e687"
 		},
 		{
 			"ImportPath": "github.com/mendersoftware/scopestack",
