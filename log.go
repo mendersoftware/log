@@ -255,8 +255,8 @@ func AddHook(hook logrus.Hook) {
 	Log.logHooks.Add(hook)
 }
 
-func IsTerminal() bool {
-	return logrus.IsTerminal()
+func IsTerminal(f io.Writer) bool {
+	return logrus.IsTerminal(f)
 }
 
 func SetFormatter(formatter logrus.Formatter) {
