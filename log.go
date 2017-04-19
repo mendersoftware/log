@@ -243,6 +243,94 @@ func (l *Logger) AddSyslogHook() error {
 	return nil
 }
 
+// FileLogger struct
+type FileLogger struct {
+	file        string
+	keepFilesNo int
+}
+
+// NewFileLogger creates instance of file logger
+func NewFileLogger(name string, filesNo int) *FileLogger {
+	return &FileLogger{
+		file:        name,
+		keepFilesNo: filesNo,
+	}
+}
+
+func (fl *FileLogger) WriteLog(log []byte) error {
+	// open log file
+	logFile, err := os.OpenFile(fl.file, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	if err != nil {
+		return err
+	}
+	defer logFile.Close()
+
+	_, err = logFile.Write(log)
+	return err
+}
+
+func (fl *FileLogger) Rotate() {
+	//TODO:
+
+}
+
+type fileLoggingHook struct {
+	logger   *FileLogger
+	updateID string
+}
+
+// returnes ID of current update
+func getUpdateID() string {
+	//TODO: get update ID
+	return "1"
+}
+
+func NewFielLogHook(file string) *fileLoggingHook {
+	return &fileLoggingHook{
+		logger:   NewFileLogger(file, 5),
+		updateID: getUpdateID(),
+	}
+}
+
+func (fh fileLoggingHook) Levels() []logrus.Level {
+	return []logrus.Level{logrus.PanicLevel,
+		logrus.FatalLevel,
+		logrus.ErrorLevel,
+		logrus.WarnLevel,
+		logrus.InfoLevel,
+		logrus.DebugLevel}
+}
+
+func (fh fileLoggingHook) format(entry *logrus.Entry) ([]byte, error) {
+	// use provided JSONFormatter
+	var formatter logrus.JSONFormatter
+	return formatter.Format(entry)
+}
+
+func (fh fileLoggingHook) Fire(entry *logrus.Entry) error {
+	//TODO: we can do formating ourselves instead of using logrus
+	log := *entry
+	log.Data["deployment"] = fh.updateID
+
+	message, err := fh.format(&log)
+	if err != nil {
+		return err
+	}
+
+	return fh.logger.WriteLog(message)
+}
+
+func AddDeploymentHook(file string) error {
+	return Log.AddDeploymentHook(file)
+}
+
+func (self *Logger) AddDeploymentHook(file string) error {
+	hook := NewFielLogHook(file)
+	self.Hooks.Add(hook)
+
+	return nil
+}
+
 // -----------------------------------------------------------------------------
 
 // Mirror all the logrus API.
