@@ -23,8 +23,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Sirupsen/logrus"
 	mt "github.com/mendersoftware/mendertesting"
+	"github.com/sirupsen/logrus"
 )
 
 func TestSetup(t *testing.T) {

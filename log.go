@@ -23,10 +23,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Sirupsen/logrus"
 	"github.com/mendersoftware/scopestack"
+	"github.com/sirupsen/logrus"
 
-	logrus_syslog "github.com/Sirupsen/logrus/hooks/syslog"
+	logrus_syslog "github.com/sirupsen/logrus/hooks/syslog"
 )
 
 type Level logrus.Level
@@ -74,7 +74,7 @@ type Logger struct {
 	loggingHook loggingHookType
 
 	// we need to use our own hook handling mechanism as original one is broken
-	// see: https://github.com/Sirupsen/logrus/issues/401
+	// see: https://github.com/sirupsen/logrus/issues/401
 	logHooks logrus.LevelHooks
 }
 
