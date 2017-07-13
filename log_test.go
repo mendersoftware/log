@@ -1,4 +1,4 @@
-// Copyright 2016 Mender Software AS
+// Copyright 2017 Northern.tech AS
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -27,11 +27,13 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+var logrus_quotes string = ""
+
 func TestSetup(t *testing.T) {
 }
 
 func TestLogging(t *testing.T) {
-	checkLogging(t, "\"log_test\"")
+	checkLogging(t, "log_test")
 }
 
 func setupLogging(t *testing.T) {
@@ -48,6 +50,31 @@ func setupLogging(t *testing.T) {
 	Log.Formatter.(*logrus.TextFormatter).DisableTimestamp = true
 
 	SetLevel(logrus.DebugLevel)
+
+	// Older versions of logrus add quotes to fields with underscores, while
+	// newer ones do not. We cannot avoid underscores because of the name of
+	// our test file, so we need to account for that in the string
+	// comparisons.
+	Log.WithField("test_field", "test_value").Println("Testing fields")
+	fd.Close()
+	fd, err = os.Open("output.log")
+	mt.AssertTrue(t, err == nil)
+	var buf [4096]byte
+	n, err := fd.Read(buf[:])
+	mt.AssertTrue(t, err == nil)
+	mt.AssertTrue(t, n < 4096)
+
+	if string(buf[0:n]) == "level=info msg=\"Testing fields\" test_field=\"test_value\" \n" {
+		logrus_quotes = "\""
+	} else if string(buf[0:n]) == "level=info msg=\"Testing fields\" test_field=test_value \n" {
+		logrus_quotes = ""
+	} else {
+		t.Fatalf("Unexpected log format: %s", string(buf[0:n]))
+	}
+
+	fd, err = os.Create("output.log")
+	mt.AssertTrue(t, err == nil)
+	SetOutput(fd)
 }
 
 func checkLogging(t *testing.T, module string) {
@@ -173,7 +200,7 @@ func checkLogging(t *testing.T, module string) {
 		"level=panic msg=Panic module=%% \n" +
 		"level=panic msg=\"Panicf : Panicf\" module=%% \n" +
 		"level=panic msg=Panicln module=%% \n"
-	checkString = strings.Replace(checkString, "%%", module, -1)
+	checkString = strings.Replace(checkString, "%%", logrus_quotes+module+logrus_quotes, -1)
 
 	verifyLogging(t, checkString)
 	cleanupLogging(t)
@@ -182,6 +209,7 @@ func checkLogging(t *testing.T, module string) {
 func verifyLogging(t *testing.T, checkString string) {
 	fd, err := os.Open("output.log")
 	mt.AssertTrue(t, err == nil)
+	defer fd.Close()
 	var buf [4096]byte
 	n, err := fd.Read(buf[:])
 	mt.AssertTrue(t, err == nil)
@@ -200,14 +228,14 @@ func cleanupLogging(t *testing.T) {
 }
 
 func TestModules(t *testing.T) {
-	PushModule("test1")
-	checkLogging(t, "test1")
-	PushModule("test2")
-	checkLogging(t, "test2")
+	PushModule("test_1")
+	checkLogging(t, "test_1")
+	PushModule("test_2")
+	checkLogging(t, "test_2")
 	PopModule()
-	checkLogging(t, "test1")
+	checkLogging(t, "test_1")
 	PopModule()
-	checkLogging(t, "\"log_test\"")
+	checkLogging(t, "log_test")
 }
 
 func TestSyslog(t *testing.T) {
@@ -231,7 +259,7 @@ func TestSyslog(t *testing.T) {
 	SetLevel(DebugLevel)
 
 	Log.Errorf("For syslog testing: Error with no module: %d", testrand)
-	Log.PushModule("test1")
+	Log.PushModule("test_1")
 	Log.Warnf("For syslog testing: Warning with test1 module: %d", testrand)
 	Log.Debugf("For syslog testing: Debug with test1 module: %d", testrand)
 	Log.PopModule()
@@ -254,14 +282,14 @@ func TestSyslog(t *testing.T) {
 	var checkString string
 	// Should show.
 	checkString = fmt.Sprintf("level=error msg=\"For syslog testing: Error with no module: "+
-		"%d\" module=\"log_test\"", testrand)
+		"%d\" module=%slog_test%s", testrand, logrus_quotes, logrus_quotes)
 	mt.AssertTrue(t, strings.Index(string(output), checkString) >= 0)
 	checkString = fmt.Sprintf("level=warning msg=\"For syslog testing: Warning with test1 module: "+
-		"%d\" module=test1", testrand)
+		"%d\" module=%stest_1%s", testrand, logrus_quotes, logrus_quotes)
 	mt.AssertTrue(t, strings.Index(string(output), checkString) >= 0)
 	// Should not show.
 	checkString = fmt.Sprintf("level=debug msg=\"For syslog testing: Debug with test1 module: "+
-		"%d\" module=test1", testrand)
+		"%d\" module=%stest_1%s", testrand, logrus_quotes, logrus_quotes)
 	mt.AssertTrue(t, strings.Index(string(output), checkString) < 0)
 
 	cleanupLogging(t)
@@ -289,11 +317,12 @@ func TestModuleFilter(t *testing.T) {
 	PopModule()
 	Debug("Should show after file reappeared")
 
-	checkString := "level=debug msg=\"Should show\" module=\"log_test\" \n" +
-		"level=debug msg=\"Should also show\" module=\"log_test\" \n" +
+	checkString := "level=debug msg=\"Should show\" module=%% \n" +
+		"level=debug msg=\"Should also show\" module=%% \n" +
 		"level=debug msg=\"Should show as well\" module=test \n" +
 		"level=debug msg=\"Should show after module reappeared\" module=test \n" +
-		"level=debug msg=\"Should show after file reappeared\" module=\"log_test\" \n"
+		"level=debug msg=\"Should show after file reappeared\" module=%% \n"
+	checkString = strings.Replace(checkString, "%%", logrus_quotes+"log_test"+logrus_quotes, -1)
 
 	verifyLogging(t, checkString)
 	cleanupLogging(t)
@@ -313,9 +342,10 @@ func TestLogLevels(t *testing.T) {
 	Debug("Debug log level should not show")
 	Warn("Warn log level should show")
 
-	checkString := "level=debug msg=\"Debug log level should show\" module=\"log_test\" \n" +
-		"level=info msg=\"Info log level should show\" module=\"log_test\" \n" +
-		"level=warning msg=\"Warn log level should show\" module=\"log_test\" \n"
+	checkString := "level=debug msg=\"Debug log level should show\" module=%% \n" +
+		"level=info msg=\"Info log level should show\" module=%% \n" +
+		"level=warning msg=\"Warn log level should show\" module=%% \n"
+	checkString = strings.Replace(checkString, "%%", logrus_quotes+"log_test"+logrus_quotes, -1)
 
 	verifyLogging(t, checkString)
 	cleanupLogging(t)
