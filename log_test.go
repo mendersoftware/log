@@ -1,4 +1,4 @@
-// Copyright 2017 Northern.tech AS
+// Copyright 2018 Northern.tech AS
 //
 //    Licensed under the Apache License, Version 2.0 (the "License");
 //    you may not use this file except in compliance with the License.
@@ -64,9 +64,9 @@ func setupLogging(t *testing.T) {
 	mt.AssertTrue(t, err == nil)
 	mt.AssertTrue(t, n < 4096)
 
-	if string(buf[0:n]) == "level=info msg=\"Testing fields\" test_field=\"test_value\" \n" {
+	if string(buf[0:n]) == "level=info msg=\"Testing fields\" test_field=\"test_value\"\n" {
 		logrus_quotes = "\""
-	} else if string(buf[0:n]) == "level=info msg=\"Testing fields\" test_field=test_value \n" {
+	} else if string(buf[0:n]) == "level=info msg=\"Testing fields\" test_field=test_value\n" {
 		logrus_quotes = ""
 	} else {
 		t.Fatalf("Unexpected log format: %s", string(buf[0:n]))
@@ -158,48 +158,48 @@ func checkLogging(t *testing.T, module string) {
 	// call os.Exit(). Skipping those tests for now, they're not likely to
 	// be used much.
 
-	checkString := "level=info msg=Print module=%% \n" +
-		"level=info msg=\"Printf : Printf\" module=%% \n" +
-		"level=info msg=Println module=%% \n" +
-		"level=debug msg=Debug module=%% \n" +
-		"level=debug msg=\"Debugf : Debugf\" module=%% \n" +
-		"level=debug msg=Debugln module=%% \n" +
-		"level=info msg=Info module=%% \n" +
-		"level=info msg=\"Infof : Infof\" module=%% \n" +
-		"level=info msg=Infoln module=%% \n" +
-		"level=warning msg=Warn module=%% \n" +
-		"level=warning msg=\"Warnf : Warnf\" module=%% \n" +
-		"level=warning msg=Warnln module=%% \n" +
-		"level=warning msg=Warning module=%% \n" +
-		"level=warning msg=\"Warningf : Warningf\" module=%% \n" +
-		"level=warning msg=Warningln module=%% \n" +
-		"level=error msg=Error module=%% \n" +
-		"level=error msg=\"Errorf : Errorf\" module=%% \n" +
-		"level=error msg=Errorln module=%% \n" +
-		"level=panic msg=Panic module=%% \n" +
-		"level=panic msg=\"Panicf : Panicf\" module=%% \n" +
-		"level=panic msg=Panicln module=%% \n" +
-		"level=info msg=Print module=%% \n" +
-		"level=info msg=\"Printf : Printf\" module=%% \n" +
-		"level=info msg=Println module=%% \n" +
-		"level=debug msg=Debug module=%% \n" +
-		"level=debug msg=\"Debugf : Debugf\" module=%% \n" +
-		"level=debug msg=Debugln module=%% \n" +
-		"level=info msg=Info module=%% \n" +
-		"level=info msg=\"Infof : Infof\" module=%% \n" +
-		"level=info msg=Infoln module=%% \n" +
-		"level=warning msg=Warn module=%% \n" +
-		"level=warning msg=\"Warnf : Warnf\" module=%% \n" +
-		"level=warning msg=Warnln module=%% \n" +
-		"level=warning msg=Warning module=%% \n" +
-		"level=warning msg=\"Warningf : Warningf\" module=%% \n" +
-		"level=warning msg=Warningln module=%% \n" +
-		"level=error msg=Error module=%% \n" +
-		"level=error msg=\"Errorf : Errorf\" module=%% \n" +
-		"level=error msg=Errorln module=%% \n" +
-		"level=panic msg=Panic module=%% \n" +
-		"level=panic msg=\"Panicf : Panicf\" module=%% \n" +
-		"level=panic msg=Panicln module=%% \n"
+	checkString := "level=info msg=Print module=%%\n" +
+		"level=info msg=\"Printf : Printf\" module=%%\n" +
+		"level=info msg=Println module=%%\n" +
+		"level=debug msg=Debug module=%%\n" +
+		"level=debug msg=\"Debugf : Debugf\" module=%%\n" +
+		"level=debug msg=Debugln module=%%\n" +
+		"level=info msg=Info module=%%\n" +
+		"level=info msg=\"Infof : Infof\" module=%%\n" +
+		"level=info msg=Infoln module=%%\n" +
+		"level=warning msg=Warn module=%%\n" +
+		"level=warning msg=\"Warnf : Warnf\" module=%%\n" +
+		"level=warning msg=Warnln module=%%\n" +
+		"level=warning msg=Warning module=%%\n" +
+		"level=warning msg=\"Warningf : Warningf\" module=%%\n" +
+		"level=warning msg=Warningln module=%%\n" +
+		"level=error msg=Error module=%%\n" +
+		"level=error msg=\"Errorf : Errorf\" module=%%\n" +
+		"level=error msg=Errorln module=%%\n" +
+		"level=panic msg=Panic module=%%\n" +
+		"level=panic msg=\"Panicf : Panicf\" module=%%\n" +
+		"level=panic msg=Panicln module=%%\n" +
+		"level=info msg=Print module=%%\n" +
+		"level=info msg=\"Printf : Printf\" module=%%\n" +
+		"level=info msg=Println module=%%\n" +
+		"level=debug msg=Debug module=%%\n" +
+		"level=debug msg=\"Debugf : Debugf\" module=%%\n" +
+		"level=debug msg=Debugln module=%%\n" +
+		"level=info msg=Info module=%%\n" +
+		"level=info msg=\"Infof : Infof\" module=%%\n" +
+		"level=info msg=Infoln module=%%\n" +
+		"level=warning msg=Warn module=%%\n" +
+		"level=warning msg=\"Warnf : Warnf\" module=%%\n" +
+		"level=warning msg=Warnln module=%%\n" +
+		"level=warning msg=Warning module=%%\n" +
+		"level=warning msg=\"Warningf : Warningf\" module=%%\n" +
+		"level=warning msg=Warningln module=%%\n" +
+		"level=error msg=Error module=%%\n" +
+		"level=error msg=\"Errorf : Errorf\" module=%%\n" +
+		"level=error msg=Errorln module=%%\n" +
+		"level=panic msg=Panic module=%%\n" +
+		"level=panic msg=\"Panicf : Panicf\" module=%%\n" +
+		"level=panic msg=Panicln module=%%\n"
 	checkString = strings.Replace(checkString, "%%", logrus_quotes+module+logrus_quotes, -1)
 
 	verifyLogging(t, checkString)
@@ -317,11 +317,11 @@ func TestModuleFilter(t *testing.T) {
 	PopModule()
 	Debug("Should show after file reappeared")
 
-	checkString := "level=debug msg=\"Should show\" module=%% \n" +
-		"level=debug msg=\"Should also show\" module=%% \n" +
-		"level=debug msg=\"Should show as well\" module=test \n" +
-		"level=debug msg=\"Should show after module reappeared\" module=test \n" +
-		"level=debug msg=\"Should show after file reappeared\" module=%% \n"
+	checkString := "level=debug msg=\"Should show\" module=%%\n" +
+		"level=debug msg=\"Should also show\" module=%%\n" +
+		"level=debug msg=\"Should show as well\" module=test\n" +
+		"level=debug msg=\"Should show after module reappeared\" module=test\n" +
+		"level=debug msg=\"Should show after file reappeared\" module=%%\n"
 	checkString = strings.Replace(checkString, "%%", logrus_quotes+"log_test"+logrus_quotes, -1)
 
 	verifyLogging(t, checkString)
@@ -342,9 +342,9 @@ func TestLogLevels(t *testing.T) {
 	Debug("Debug log level should not show")
 	Warn("Warn log level should show")
 
-	checkString := "level=debug msg=\"Debug log level should show\" module=%% \n" +
-		"level=info msg=\"Info log level should show\" module=%% \n" +
-		"level=warning msg=\"Warn log level should show\" module=%% \n"
+	checkString := "level=debug msg=\"Debug log level should show\" module=%%\n" +
+		"level=info msg=\"Info log level should show\" module=%%\n" +
+		"level=warning msg=\"Warn log level should show\" module=%%\n"
 	checkString = strings.Replace(checkString, "%%", logrus_quotes+"log_test"+logrus_quotes, -1)
 
 	verifyLogging(t, checkString)
