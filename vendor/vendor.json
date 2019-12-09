@@ -3,6 +3,36 @@
 	"ignore": "",
 	"package": [
 		{
+			"checksumSHA1": "3KhDEC5MM0iyN+FsLfxpnvFVeuY=",
+			"path": "github.com/davecgh/go-spew/spew",
+			"revision": "d8f796af33cc11cb798c1aaeb27a4ebc5099927d",
+			"revisionTime": "2018-08-30T19:11:22Z"
+		},
+		{
+			"checksumSHA1": "a2yC46a1qsJomgY6rb+FkTFiqmE=",
+			"path": "github.com/davecgh/go-spew/spew/testdata",
+			"revision": "d8f796af33cc11cb798c1aaeb27a4ebc5099927d",
+			"revisionTime": "2018-08-30T19:11:22Z"
+		},
+		{
+			"checksumSHA1": "8sg5F3A9erV8i7SxqTRn9LYKLy0=",
+			"path": "github.com/konsorten/go-windows-terminal-sequences",
+			"revision": "f55edac94c9bbba5d6182a4be46d86a2c9b5b50e",
+			"revisionTime": "2019-02-26T22:47:05Z"
+		},
+		{
+			"checksumSHA1": "jwoPNwN+mUiYFQPjQa/U3Kli7Ak=",
+			"path": "github.com/kr/pretty",
+			"revision": "73f6ac0b30a98e433b289500d779f50c1a6f0712",
+			"revisionTime": "2018-05-06T08:33:45Z"
+		},
+		{
+			"checksumSHA1": "x9dJv+jQhUFN6R6h4fzPjGLvQLg=",
+			"path": "github.com/kr/text",
+			"revision": "e2ffdb16a802fe2bb95e2e35ff34f0e53aeef34f",
+			"revisionTime": "2018-05-06T08:24:08Z"
+		},
+		{
 			"checksumSHA1": "49qr68VrJbPERZLADgUe8SludeA=",
 			"path": "github.com/mendersoftware/mendertesting",
 			"revision": "1c608df9fa68d7be58a8abeb4ff6911cd026ffec",
@@ -13,6 +43,60 @@
 			"path": "github.com/mendersoftware/scopestack",
 			"revision": "69726dcbc5a065a426f6ccfbe6b7c94ac22cf52d",
 			"revisionTime": "2017-07-12T12:26:58Z"
+		},
+		{
+			"checksumSHA1": "RZOdTSZN/PgcTqko5LzIAzw+UT4=",
+			"path": "github.com/pmezard/go-difflib/difflib",
+			"revision": "5d4384ee4fb2527b0a1256a821ebfc92f91efefc",
+			"revisionTime": "2018-12-26T10:54:42Z"
+		},
+		{
+			"checksumSHA1": "ZxXJ4qenPSvMCiOhB3lNc7Qe/WA=",
+			"path": "github.com/sirupsen/logrus",
+			"revision": "67a7fdcf741f4d5cee82cb9800994ccfd4393ad0",
+			"revisionTime": "2019-10-26T11:39:18Z"
+		},
+		{
+			"checksumSHA1": "jDsR9gpxYB6YBduE5qD8FmLiYv0=",
+			"path": "github.com/sirupsen/logrus/hooks/syslog",
+			"revision": "67a7fdcf741f4d5cee82cb9800994ccfd4393ad0",
+			"revisionTime": "2019-10-26T11:39:18Z"
+		},
+		{
+			"checksumSHA1": "+SEEYlQ3V1UFOYrcM+5xsO9ow0U=",
+			"path": "github.com/sirupsen/logrus/internal/testutils",
+			"revision": "67a7fdcf741f4d5cee82cb9800994ccfd4393ad0",
+			"revisionTime": "2019-10-26T11:39:18Z"
+		},
+		{
+			"checksumSHA1": "QNMFJpzketf/OU/BR9LA2iy2MIY=",
+			"path": "github.com/stretchr/testify/assert",
+			"revision": "7009337cb5726e58a8444528a492b85d111bc1a5",
+			"revisionTime": "2019-12-04T19:23:53Z"
+		},
+		{
+			"checksumSHA1": "LlD2iVLIsSK5I+NZ5Gw7S3uDuiY=",
+			"path": "github.com/stretchr/testify/require",
+			"revision": "7009337cb5726e58a8444528a492b85d111bc1a5",
+			"revisionTime": "2019-12-04T19:23:53Z"
+		},
+		{
+			"checksumSHA1": "Kmgt4sY538py7TDK8Ei0JhUKLm8=",
+			"path": "golang.org/x/sys/unix",
+			"revision": "eeba5f6aabab6d6594a9191d6bfeaca5fa6a8248",
+			"revisionTime": "2019-12-06T14:02:52Z"
+		},
+		{
+			"checksumSHA1": "vgYj71VS5CXqcOn8UkN9hoG68Ic=",
+			"path": "gopkg.in/check.v1",
+			"revision": "41f04d3bba152ddec2103e299fed053415705330",
+			"revisionTime": "2019-09-02T08:05:02Z"
+		},
+		{
+			"checksumSHA1": "LlzCJcRClVmjawKQAVD23JBjHJw=",
+			"path": "gopkg.in/yaml.v2",
+			"revision": "1f64d6156d11335c3f22d9330b0ad14fc1e789ce",
+			"revisionTime": "2019-11-19T21:27:36Z"
 		}
 	],
 	"rootPath": "github.com/mendersoftware/log"
